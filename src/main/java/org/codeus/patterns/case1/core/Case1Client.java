@@ -10,8 +10,10 @@ public class Case1Client {
 
   public void doHeavyLifting(ProcessingLogic processingLogic, Profiler profiler, MemoryProfiler memoryProfiler) {
 
+    Profiler memoryProfilerAdapter = new MemoryProfilerAdapter(memoryProfiler);
+
     processingLogic.process();
     processingLogic.processWithProfiling(profiler);
-//    processingLogic.processWithProfiling(memoryProfiler);
+    processingLogic.processWithProfiling(memoryProfilerAdapter);
   }
 }

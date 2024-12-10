@@ -19,7 +19,7 @@ public class Case3Client {
                                   TimeProfiler profiler,
                                   PerformanceOrientedService performanceOrientedService) {
     //TODO 3.1: The `processingLogic` call should be profiled using `TimeProfiler` during the `performanceOrientedService` call
-    performanceOrientedService.doHeavyLifting(processingLogic);
+    performanceOrientedService.doHeavyLifting(new TimeProfilingDecorator(processingLogic, profiler));
   }
 
   public void doHeavyLiftingPart2(ProcessingLogic processingLogic,
@@ -30,6 +30,6 @@ public class Case3Client {
     // its input `EventMessage` should be filtered using `Filter<EventMessage>`
     // during the `performanceOrientedService`.
     // NOTE: the profiler logic should be called before the validation.
-    dataConsistencyOrientedService.doHeavyLifting(processingLogic);
+    dataConsistencyOrientedService.doHeavyLifting(new TimeProfilingDecorator(new MessageFilteringDecorator<>(processingLogic, filter), profiler));
   }
 }

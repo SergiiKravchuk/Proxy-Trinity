@@ -13,6 +13,6 @@ public class Case2Client {
 
     //TODO 2.1: Calls of the `localService` should be profiled using the `TimeProfiler` during `externalService.process()`
     // but we CANNOT alter `ExternalService`
-    externalService.process(localService);
+    externalService.process(new Proxy(localService, timeProfiler));
   }
 }
