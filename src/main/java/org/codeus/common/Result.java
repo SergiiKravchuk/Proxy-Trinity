@@ -2,5 +2,5 @@ package org.codeus.common;
 
 public enum Result {
 
-  SUCCESS, FAILURE
+  SUCCESS, FAILURE, SKIPPED
 }

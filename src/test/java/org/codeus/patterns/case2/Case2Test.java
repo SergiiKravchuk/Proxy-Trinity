@@ -1,6 +1,7 @@
 package org.codeus.patterns.case2;
 
 import lombok.SneakyThrows;
+import org.codeus.patterns.case2.core.Case2Client;
 import org.codeus.patterns.case2.core.LocalService;
 import org.codeus.patterns.case2.core.LocalServiceImpl;
 import org.codeus.patterns.case2.external.ExternalService;
@@ -33,13 +34,14 @@ public class Case2Test {
   @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
   class MainFlowTest {
 
-    LocalService localService = new LocalServiceImpl();
-    ExternalService externalService = new ExternalService();
-    TimeProfiler timeProfiler = new OrangeTimeProfiler();
+    LocalService spyLocalService = spy(new LocalServiceImpl());
+    ExternalService spyExternalService = spy(new ExternalService());
+    TimeProfiler spyTimeProfiler = spy(new OrangeTimeProfiler());
     Case2Client client = new Case2Client();
 
     @Test
     @Order(1)
+    @DisplayName("LocalServiceImpl class should NOT have fields")
     void testLocalServiceImplClassDoesNotHaveFields() {
       Field[] declaredFields = LocalServiceImpl.class.getDeclaredFields();
 
@@ -47,12 +49,28 @@ public class Case2Test {
     }
 
     @Test
-    @Order(6)
-    void testTimeProfilingMethodsCalledInOrder() {
-      LocalService spyLocalService = spy(localService);
-      TimeProfiler spyTimeProfiler = spy(timeProfiler);
-      ExternalService spyExternalService = spy(externalService);
+    @Order(2)
+    @DisplayName("LocalServiceImpl class should exactly one method")
+    void testLocalServiceImplHasExactlyOneMethods() {
+      Method[] declaredMethods = LocalServiceImpl.class.getDeclaredMethods();
 
+      assertThat(declaredMethods).hasSize(1);
+    }
+
+    @Test
+    @Order(3)
+    @SneakyThrows
+    @DisplayName("LocalServiceImpl class should have `process` method with no parameters")
+    public void testLocalServiceImplProcessMethodParameters() {
+      Method processMethod = LocalServiceImpl.class.getDeclaredMethod("process");
+
+      assertNotNull(processMethod);
+    }
+
+    @Test
+    @Order(6)
+    @DisplayName("TimeProfiler method are called before ExternalService#process and before and after LocalService#process")
+    void testTimeProfilingMethodsCalledInOrder() {
       client.doHeavyLifting(spyLocalService, spyTimeProfiler, spyExternalService);
 
       InOrder inOrder = Mockito.inOrder(spyLocalService, spyTimeProfiler, spyExternalService);
@@ -65,11 +83,8 @@ public class Case2Test {
 
     @Test
     @Order(11)
+    @DisplayName("TimeProfiler method are called are called exactly once")
     void testTimeProfilingMethodsCalledExactlyOnce() {
-      LocalService spyLocalService = spy(localService);
-      TimeProfiler spyTimeProfiler = spy(timeProfiler);
-      ExternalService spyExternalService = spy(externalService);
-
       client.doHeavyLifting(spyLocalService, spyTimeProfiler, spyExternalService);
 
       verify(spyExternalService).process(any(LocalService.class));
@@ -79,7 +94,7 @@ public class Case2Test {
     }
   }
 
-  @Order(5)
+  @Order(6)
   @Nested
   @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
   class ExternalServiceTest {

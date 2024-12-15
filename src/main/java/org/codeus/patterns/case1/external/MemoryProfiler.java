@@ -1,4 +1,4 @@
-package org.codeus.patterns.external_libraries.poodle;
+package org.codeus.patterns.case1.external;
 
 import java.util.List;
 

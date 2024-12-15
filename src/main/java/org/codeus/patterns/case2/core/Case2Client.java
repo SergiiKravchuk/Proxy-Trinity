@@ -1,10 +1,13 @@
-package org.codeus.patterns.case2;
+package org.codeus.patterns.case2.core;
 
-import org.codeus.patterns.case2.core.LocalService;
 import org.codeus.patterns.case2.external.ExternalService;
 import org.codeus.patterns.external_libraries.orange.TimeProfiler;
 
 public class Case2Client {
+
+  //TODO 2: Apply one design pattern to the module to profile `org.codeus.patterns.case2.core.LocalServiceImpl`
+  // using (`OrangeTimeProfiler`) inside the `org.codeus.patterns.case2.external.ExternalService`
+  // without changing source code of the `LocalServiceImpl` and `ExternalService`.
 
   public void doHeavyLifting(LocalService localService, TimeProfiler timeProfiler, ExternalService externalService) {
 

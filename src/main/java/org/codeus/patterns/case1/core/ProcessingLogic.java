@@ -1,10 +1,7 @@
 package org.codeus.patterns.case1.core;
 
 import org.codeus.common.Result;
-import org.codeus.patterns.external_libraries.orange.TimeProfiler;
-import org.codeus.patterns.external_libraries.poodle.MemoryProfiler;
-
-import java.util.stream.Collectors;
+import org.codeus.patterns.case1.core.profiler.Profiler;
 
 public class ProcessingLogic {
 
@@ -21,28 +18,14 @@ public class ProcessingLogic {
   }
 
 
-  public Result processWithProfiling(MemoryProfiler memoryProfiler) {
-    System.out.printf("%s starting profiling using %s...%n", getClass().getName(), memoryProfiler.getClass().getName());
-    memoryProfiler.startMemoryProfiling();
+  public Result processWithProfiling(Profiler profiler) {
+    System.out.printf("%s starting profiling using %s...%n", getClass().getName(), profiler.getClass().getName());
+    profiler.startProfiling();
     Result result = this.process();
-    memoryProfiler.endMemoryProfiling();
+    String report = profiler.endProfiling();
 
-    String report = memoryProfiler.getResults().stream().collect(Collectors.joining("\n", "Memory Profiling Report:\n", ""));
     System.out.println(report);
 
     return result;
   }
-
-  public Result processWithProfiling(TimeProfiler timeProfiler) {
-    System.out.printf("%s starting profiling using %s...%n", getClass().getName(), timeProfiler.getClass().getName());
-    timeProfiler.startTimeProfiling();
-    Result result = this.process();
-    long timeElapsed = timeProfiler.endTimeProfiling();
-
-    System.out.printf("Time Elapsed:%d (nanoseconds)%n", timeElapsed);
-
-    return result;
-  }
-
-
 }

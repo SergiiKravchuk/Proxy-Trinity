@@ -8,14 +8,14 @@ import org.codeus.patterns.external_libraries.poodle.data.producer.Producer;
  * so you don't have direct access to its sources
  * This class SHOULD NOT BE altered in the course of this task.
  * <br><br>
- * Simple service that requires additional pre-validation of {@link Producer} messages
+ * Simple service that requires additional pre-filtering of {@link Producer} messages
  * and profiling of those messages processing.
  */
-public class ValidationOrientedService<T extends Message> {
+public class DataConsistencyOrientedService<T extends Message> {
 
   private final Producer<T> producer;
 
-  public ValidationOrientedService(Producer<T> producer) {
+  public DataConsistencyOrientedService(Producer<T> producer) {
     this.producer = producer;
   }
 

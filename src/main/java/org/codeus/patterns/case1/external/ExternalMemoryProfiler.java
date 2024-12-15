@@ -1,23 +1,23 @@
-package org.codeus.patterns.external_libraries.poodle;
+package org.codeus.patterns.case1.external;
 
 import java.util.ArrayList;
 import java.util.List;
 
 /**
  * An External class, consider it as a class in another module of your project or an external library,
- * so you don't have direct access to its sources
- * This class SHOULD NOT BE altered in the course of this task.
+ * so you don't have direct access to its sources.
+ * <p>This class SHOULD NOT BE altered in the course of this task.
  * <br><br>
  * Simple implementation of the {@link MemoryProfiler} interface.
  * Performs profiling using native Java functionality.
  * Results can be aggregated in one Profiler instance and provided as a list of metrics.
  */
-public class PoodleMemoryProfiler implements MemoryProfiler {
+public class ExternalMemoryProfiler implements MemoryProfiler {
 
   private double startMemoryFootprint;
   private final List<String> results;
 
-  public PoodleMemoryProfiler() {
+  public ExternalMemoryProfiler() {
     results = new ArrayList<>();
   }
 
